@@ -33,7 +33,7 @@
     ]
   },
   "devDependencies": {
-    "apollo-boost": "^0.4.4"
+    "apollo-boost": "^0.4.7"
   },
   "type": "module"
 }
