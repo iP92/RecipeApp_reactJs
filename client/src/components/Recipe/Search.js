@@ -19,6 +19,7 @@ const Search = () => {
             {client => (
                 <div className="App">
                     <input type="search"
+                           className="search"
                            placeholder="Search for recipes"
                            onChange={async event => {
                                event.persist();

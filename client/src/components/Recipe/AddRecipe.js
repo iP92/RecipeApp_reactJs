@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {withRouter} from 'react-router-dom';
+import CKEditor from 'react-ckeditor-component';
 
 import {Mutation} from 'react-apollo';
 import {ADD_RECIPE, GET_ALL_RECIPES, GET_USER_RECIPES} from "../../queries";
@@ -9,6 +10,7 @@ import withAuth from "../withAuth";
 const initialState = {
     name: '',
     category: 'Breakfast',
+    imageUrl:'',
     description: '',
     instructions: '',
     username: ''
@@ -28,8 +30,18 @@ const AddRecipe = (props) => {
         })
     }
 
+    const handleInstructionsChange = event => {
+        const newContent = event.editor.getData();
+        setState(prevState => {
+            return {
+                ...prevState,
+                instructions: newContent
+            }
+        })
+    }
+
     const validateForm = () => {
-        return !name || !category || !description || !instructions
+        return !name || !imageUrl || !category || !description || !instructions
     }
 
     const handleSubmit = (event, addRecipe) => {
@@ -64,10 +76,10 @@ const AddRecipe = (props) => {
         })
     }, [state.username])
 
-    const {name, category, description, instructions, username} = state;
+    const {name, category, imageUrl, description, instructions, username} = state;
     return (
         <Mutation mutation={ADD_RECIPE}
-                  variables={{name, category, description, instructions, username}}
+                  variables={{name, category, imageUrl, description, instructions, username}}
                   update={updateCache}
                   refetchQueries={() => [
                       { query: GET_USER_RECIPES, variables: { username } }
@@ -85,6 +97,14 @@ const AddRecipe = (props) => {
                                 type="text"
                                 name="name"
                                 onChange={handleChange}
+                                placeholder="Recipe Name"
+                            />
+                            <input
+                                value={imageUrl}
+                                type="text"
+                                name="imageUrl"
+                                onChange={handleChange}
+                                placeholder="Recipe Image"
                             />
                             <select value={category}
                                     name="category"
@@ -102,12 +122,14 @@ const AddRecipe = (props) => {
                                 placeholder="Add description"
                                 onChange={handleChange}
                             />
-                            <textarea
-                                value={instructions}
-                                name="instructions"
-                                placeholder="Add instructions"
-                                onChange={handleChange}
-                            ></textarea>
+                            <label htmlFor="instructions">Add Instructions</label>
+                            <CKEditor name="instructions" content={instructions} events={{ change: handleInstructionsChange}}/>
+                            {/*<textarea*/}
+                            {/*    value={instructions}*/}
+                            {/*    name="instructions"*/}
+                            {/*    placeholder="Add instructions"*/}
+                            {/*    onChange={handleChange}*/}
+                            {/*></textarea>*/}
                             <button disabled={loading || validateForm()}
                                     type="submit"
                                     className="button-primary"

@@ -82,7 +82,9 @@ const LikeRecipe = (props) => {
                           update={updateLike}
                 >
                     {likeRecipe => (
-                        state.username && <button onClick={() => handleClick(likeRecipe, unlikeRecipe)}>
+                        state.username && <button className="like-button"
+                                                  onClick={() => handleClick(likeRecipe, unlikeRecipe)}
+                        >
                             {state.liked ? 'Unlike' : 'Like'}
                         </button>
                     )

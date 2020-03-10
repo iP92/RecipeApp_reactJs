@@ -1,12 +1,13 @@
-import { gql } from 'apollo-boost';
+import {gql} from 'apollo-boost';
 
-import { recipeFragments } from './fragments';
+import {recipeFragments} from './fragments';
 
 export const GET_ALL_RECIPES = gql`
     query{
         getAllRecipes{
             _id
-            name 
+            name
+            imageUrl
             category
         }
     }
@@ -14,10 +15,10 @@ export const GET_ALL_RECIPES = gql`
 
 export const GET_RECIPE = gql`
     query($_id:ID!) {
-      getRecipe(_id: $_id) {
-        ...CompleteRecipe
+        getRecipe(_id: $_id) {
+            ...CompleteRecipe
+        }
     }
-}
     ${recipeFragments.recipe}
 `
 
@@ -28,18 +29,18 @@ export const GET_USER_RECIPES = gql`
             name
             likes
         }
-    } 
+    }
 `
 
 export const SIGNIN_USER = gql`
     mutation($username: String!, $password:String!){
-      signinUser(
-        username: $username, 
-        password:$password
-      ) {
-        token
-      }
-}
+        signinUser(
+            username: $username,
+            password:$password
+        ) {
+            token
+        }
+    }
 `
 
 export const SIGNUP_USER = gql`
@@ -50,7 +51,7 @@ export const SIGNUP_USER = gql`
             password: $password
         ) {
             token
-          }
+        }
     }
 `
 
@@ -66,12 +67,14 @@ export const SEARCH_RECIPES = gql`
 
 export const ADD_RECIPE = gql`
     mutation($name: String!,
-    $description: String!,
-    $category: String!,
-    $instructions: String!,
-    $username: String){
+        $description: String!,
+        $imageUrl: String!,
+        $category: String!,
+        $instructions: String!,
+        $username: String){
         addRecipe(name: $name,
             description: $description,
+            imageUrl: $imageUrl,
             category: $category,
             instructions: $instructions,
             username: $username)
