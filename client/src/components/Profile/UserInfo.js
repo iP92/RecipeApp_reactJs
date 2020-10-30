@@ -27,6 +27,7 @@ const UserInfo = ({ session }) => {
                 )}
             </ul>
             <p>Test only</p>
+            <p>Test1</p>
         </div>
     )
 }
