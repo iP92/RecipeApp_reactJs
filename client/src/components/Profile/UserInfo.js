@@ -26,6 +26,7 @@ const UserInfo = ({ session }) => {
                   <p><strong>You have no favorites currently. Go add some!</strong></p>
                 )}
             </ul>
+            <p>Test only</p>
         </div>
     )
 }
